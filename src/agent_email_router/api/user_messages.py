@@ -11,12 +11,12 @@ class UserMessageRequest(BaseModel):
 router = APIRouter()
 
 @router.post("/api/v1/user-messages")
-def user_messages(userMessageRequest: UserMessageRequest):
+async def user_messages(user_message_request: UserMessageRequest):
     send_email(
         to=settings.email_other,
-        reply_to=userMessageRequest.email,
-        subject=f"New message from user: '{userMessageRequest.message[0:10]}' (...)",
-        body=userMessageRequest.message
+        reply_to=user_message_request.email,
+        subject=f"New message from user: '{user_message_request.message[0:10]}' (...)",
+        body=user_message_request.message
     )
 
     return {"message": "processed"}
