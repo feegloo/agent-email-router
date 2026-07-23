@@ -3,8 +3,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env")
 
-    smpt_host: str
-    smpt_port: int
+    smtp_host: str
+    smtp_port: int
     email_from: str
     email_human_resources: str
     email_help_desk: str
