@@ -1,4 +1,22 @@
 services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      SMTP_HOST: mailhog
+      SMTP_PORT: 1025
+      EMAIL_FROM: agent-email-router@example.com
+      EMAIL_HUMAN_RESOURCES: human-resources@example.com
+      EMAIL_HELP_DESK: help-desk@example.com
+      EMAIL_IT: it@example.com
+      EMAIL_KADRY: kadry@example.com
+      EMAIL_OTHER: other@example.com
+      OLLAMA_BASE_URL: http://ollama:11434/v1
+    depends_on:
+      - mailhog
+      - ollama
+  
   mailhog:
     image: mailhog/mailhog:v1.0.1
     ports:

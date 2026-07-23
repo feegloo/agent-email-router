@@ -15,7 +15,7 @@ async def user_messages(user_message_request: UserMessageRequest):
     send_email(
         to=settings.email_other,
         reply_to=user_message_request.email,
-        subject=f"New message from user: '{user_message_request.message[0:10]}' (...)",
+        subject=f"New message from {user_message_request.email}: '{user_message_request.message[0:10]}' (...)",
         body=user_message_request.message
     )
 

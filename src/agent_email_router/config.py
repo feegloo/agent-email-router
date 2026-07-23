@@ -1,6 +1,7 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
+    # load configuration from .env file during development (without container)
     model_config = SettingsConfigDict(env_file=".env")
 
     smtp_host: str
@@ -11,7 +12,5 @@ class Settings(BaseSettings):
     email_it: str
     email_kadry: str
     email_other: str
-    ollama_url: str
-    ollama_model: str
 
 settings = Settings() # type: ignore[call-arg]
