@@ -15,7 +15,7 @@ def user_messages(userMessageRequest: UserMessageRequest):
     send_email(
         to=settings.email_other,
         reply_to=userMessageRequest.email,
-        subject="User email",
+        subject=f"New message from user: '{userMessageRequest.message[0:10]}' (...)",
         body=userMessageRequest.message
     )
 
