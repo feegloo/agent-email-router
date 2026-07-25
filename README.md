@@ -41,7 +41,9 @@ returns `HTTP 202 Accepted` with JSON response `{"message": "processing"}`
 
 The message is processed using a FastAPI background task, so the HTTP request does not wait for the LLM and email delivery to finish.
 
-The routed email should appear in MailHog within approximately 10–60 seconds.
+The first routed email should appear in MailHog within 60 seconds, as the model needs time to initialize.
+
+Subsequent messages should appear within approximately 10–30 seconds.
 
 Example curl commands to send messages that the Agent routes to the appropriate department:
 
