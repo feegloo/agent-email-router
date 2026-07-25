@@ -41,7 +41,7 @@ returns `HTTP 202 Accepted` with JSON response `{"message": "processing"}`
 
 The message is processed using a FastAPI background task, so the HTTP request does not wait for the LLM and email delivery to finish.
 
-The first routed email should appear in MailHog within 60 seconds, as the model needs time to initialize.
+In CPU mode, the first routed email should appear in MailHog within 60 seconds, as the model needs time to initialize.
 
 Subsequent messages should appear within approximately 10–30 seconds.
 
