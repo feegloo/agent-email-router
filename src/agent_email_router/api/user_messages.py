@@ -1,22 +1,24 @@
-from fastapi import APIRouter
-from pydantic import BaseModel
+from typing import Annotated
+from fastapi import APIRouter, BackgroundTasks, status
+from pydantic import BaseModel, StringConstraints, EmailStr
 
-from agent_email_router.services.email_service import send_email
-from agent_email_router.config import settings
+from agent_email_router.agent.message_agent import process_message
+
+NonEmptyString = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
 
 class UserMessageRequest(BaseModel):
-    email: str
-    message: str
+    email: EmailStr
+    message: NonEmptyString
 
 router = APIRouter()
 
-@router.post("/api/v1/user-messages")
-async def user_messages(user_message_request: UserMessageRequest):
-    send_email(
-        to=settings.email_other,
-        reply_to=user_message_request.email,
-        subject=f"New message from {user_message_request.email}: '{user_message_request.message[0:10]}' (...)",
-        body=user_message_request.message
+@router.post("/api/v1/user-messages", status_code=status.HTTP_202_ACCEPTED)
+async def user_messages(body: UserMessageRequest, background_tasks: BackgroundTasks):
+    background_tasks.add_task(
+        process_message,
+        email=body.email,
+        message=body.message,
     )
 
-    return {"message": "processed"}
+
+    return {"message": "processing"}
