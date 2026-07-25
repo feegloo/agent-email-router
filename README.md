@@ -19,13 +19,31 @@ docker compose up -d --wait
 
 The first start may take longer because Ollama needs to download the model.
 
+The `--wait` flag waits until required services are ready. 
+The API starts only after Ollama initialization completes, and Docker Compose waits until the API reports healthy status by responding to `/health` endpoint.
+
 Services:
 
 - API: http://localhost:8000
 - Swagger: http://localhost:8000/api/v1/docs
 - MailHog: http://localhost:8025
 
+
 ## Test
+
+API endpoint:
+
+```
+POST /api/v1/user-messages
+```
+
+returns `HTTP 202 Accepted` with JSON response `{"message": "processing"}`
+
+The message is processed using a FastAPI background task, so the HTTP request does not wait for the LLM and email delivery to finish.
+
+The routed email should appear in MailHog within approximately 10–60 seconds.
+
+Example curl commands to send messages that the Agent routes to the appropriate department:
 
 ```bash
 curl -X POST http://localhost:8000/api/v1/user-messages \
@@ -71,8 +89,6 @@ curl -X POST http://localhost:8000/api/v1/user-messages \
     "message": "test"
   }'
 ```
-
-The API returns `202 Accepted`. The routed email should appear in MailHog within approximately 10–60 seconds.
 
 ## Model
 
