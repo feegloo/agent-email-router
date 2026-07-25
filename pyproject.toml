@@ -10,3 +10,8 @@ dependencies = [
     "pydantic-settings==2.14.2",
     "pydantic-ai==2.16.0"
 ]
+
+[project.optional-dependencies]
+dev = [
+    "ruff",
+]

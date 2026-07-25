@@ -1,9 +1,8 @@
 from pydantic_ai import Agent, ModelSettings
 
-from agent_email_router.config import settings
-from agent_email_router.agent.send_email_tool import send_email_tool
 from agent_email_router.agent.context import MessageContext
-
+from agent_email_router.agent.send_email_tool import send_email_tool
+from agent_email_router.config import settings
 
 agent = Agent(
     model=f"ollama:{settings.ollama_model}",
@@ -28,22 +27,15 @@ agent = Agent(
         - 'it' - problemy techniczne ze sprzętem lub dostępem, np. "Nie działa mi komputer"
         - 'kadry' - urlopy, wynagrodzenia, umowy i dokumenty pracownicze, np. "Chciałbym zgłosić urlop"
         - 'other' - wiadomości niepasujące do żadnego z powyższych działów
-    """
+    """,
 )
 
 
 async def process_message(email: str, message: str) -> str:
     result = await agent.run(
         message,
-        deps=MessageContext(
-            email=email,
-            message=message,
-            email_sent=False
-        ),
-        model_settings=ModelSettings(
-            temperature=0,
-            thinking="low"
-        )
+        deps=MessageContext(email=email, message=message, email_sent=False),
+        model_settings=ModelSettings(temperature=0, thinking="low"),
     )
 
-    return result.output 
+    return result.output
