@@ -31,6 +31,10 @@ def send_email_tool(ctx: RunContext[MessageContext], department: Department) -> 
         body=ctx.deps.message,
     )
 
+    # Mark the email as sent to prevent sending multiple emails for the same message
+    # 
+    # sometimes agent may call this tool multiple times in a single run, 
+    # even the instructions say to call it only once.
     ctx.deps.email_sent = True
 
     print(f"Email sent to {department}")
