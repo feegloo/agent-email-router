@@ -1,11 +1,12 @@
 from pydantic_ai import Agent, ModelSettings
 
+from agent_email_router.config import settings
 from agent_email_router.agent.send_email_tool import send_email_tool
 from agent_email_router.agent.context import MessageContext
 
 
 agent = Agent(
-    model="ollama:qwen3:0.6b",
+    model=f"ollama:{settings.ollama_model}",
     deps_type=MessageContext,
     tools=[send_email_tool],
     instructions="""
@@ -14,11 +15,11 @@ agent = Agent(
         Przeanalizuj wiadomość użytkownika i wyślij ją dokładnie do jednego działu, używając narzędzia send_email_tool.
         Dopuszczalne wartości działów: 'human_resources', 'help_desk', 'it', 'kadry', 'other'
 
-        Musisz użyć narzędzia send_email_tool, aby wysłać wiadomość.
+        MUSISZ użyć narzędzia send_email_tool, aby wysłać wiadomość.
         Wywołaj narzędzie dokładnie jeden raz.
         Po poprawnym wykonaniu narzędzia nie wywołuj żadnych kolejnych narzędzi i zakończ zadanie.
-        send_email_tool przyjmuje od Ciebie tylko jeden argument: nazwa działu jako niepusty string.
-        Nie przekazuj treści wiadomości, adresu email ani dodatkowych argumentów oprócz nazwy działu.
+        send_email_tool przyjmuje od Ciebie tylko jeden argument - wartość działu: 'human_resources', 'help_desk', 'it', 'kadry', 'other'
+        Nie przekazuj do send_email_tool treści wiadomości, adresu email ani dodatkowych argumentów, tylko nazwę działu.
         
         Nazwy działów i przykłady wiadomości, które do nich pasują:
 

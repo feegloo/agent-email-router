@@ -16,7 +16,7 @@ Department = Literal[
 
 def send_email_tool(
     ctx: RunContext[MessageContext],
-    department: Department,
+    department: Department
  ) -> None:
     if ctx.deps.email_sent:
         # email already sent, do not call this tool again

@@ -13,22 +13,63 @@ services:
       EMAIL_KADRY: kadry@example.com
       EMAIL_OTHER: other@example.com
       OLLAMA_BASE_URL: http://ollama:11434/v1
+      OLLAMA_MODEL: qwen3.5:0.8b
     depends_on:
-      - mailhog
-      - ollama
-  
+      mailhog:
+        condition: service_started
+      ollama-model-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')",
+        ]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 2s
+
   mailhog:
     image: mailhog/mailhog:v1.0.1
     ports:
       - "1025:1025"
       - "8025:8025"
+    volumes: # persistent storage for email messages
+      - type: volume
+        source: mailhog
+        target: /home/mailhog
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /home/mailhog
+
   ollama:
     image: ollama/ollama:0.32.2
     ports:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
-      - ./ollama-entrypoint.sh:/ollama-entrypoint.sh
-    entrypoint: ["/bin/sh", "/ollama-entrypoint.sh"]
+
+  ollama-model-init:
+    image: ollama/ollama:0.32.2
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+      OLLAMA_MODEL: qwen3.5:0.8b
+    depends_on:
+      - ollama
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        until ollama list >/dev/null 2>&1; do
+          sleep 1
+        done
+
+        ollama pull "$$OLLAMA_MODEL"
+    restart: "no"
+
 volumes:
   ollama_data:
+  mailhog:

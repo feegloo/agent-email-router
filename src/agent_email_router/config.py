@@ -12,5 +12,6 @@ class Settings(BaseSettings):
     email_it: str
     email_kadry: str
     email_other: str
+    ollama_model: str
 
 settings = Settings() # type: ignore[call-arg]
