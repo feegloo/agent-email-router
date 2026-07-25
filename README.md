@@ -102,7 +102,9 @@ qwen3.5:0.8b
 
 The model runs locally using Ollama.
 
-### Known issues
+It's the lightest and fastest Qwen 3.5 model that supports tool use while maintaining a relatively low error rate.
+
+#### Known issues
 
 - The model may occasionally fail to call the required tool.
 - The model may occasionally call the tool with invalid arguments.
