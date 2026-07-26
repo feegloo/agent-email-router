@@ -2,6 +2,8 @@
 
 AI agent message routing to department email, using FastAPI, Pydantic AI, Ollama and MailHog.
 
+For example, when the user `adam.nowak@example.com` sends the message `"Chciałbym wziąć jutro urlop"`, the Agent sends an email from `agent-email-router@example.com` to `kadry@example.com`, with the `Reply-To` header set to `adam.nowak@example.com`. The email can then be previewed in MailHog.
+
 ## Run
 
 Clone the repository:
