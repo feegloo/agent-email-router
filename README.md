@@ -1,8 +1,19 @@
 # agent-email-router
 
-AI agent message routing to department email, using FastAPI, Pydantic AI, Ollama and MailHog.
+AI agent message routing to department email, using FastAPI, Pydantic AI, Ollama, MailHog and Docker.
 
 For example, when the user `adam.nowak@example.com` sends the message `"Chciałbym wziąć jutro urlop"`, the Agent sends an email from `agent-email-router@example.com` to `kadry@example.com`, with the `Reply-To` header set to `adam.nowak@example.com`. The email can then be previewed in MailHog.
+
+The email routing addresses are configured through environment variables in [docker-compose.yml](./docker-compose.yml)
+
+```
+EMAIL_FROM: agent-email-router@example.com
+EMAIL_HUMAN_RESOURCES: human-resources@example.com
+EMAIL_HELP_DESK: help-desk@example.com
+EMAIL_IT: it@example.com
+EMAIL_KADRY: kadry@example.com
+EMAIL_OTHER: other@example.com
+```
 
 ## Run
 
