@@ -110,7 +110,7 @@ curl -X POST http://localhost:8000/api/v1/user-messages \
 
 The default model is:
 
-```text
+```
 qwen3.5:0.8b
 ```
 
@@ -122,6 +122,8 @@ It's the lightest and fastest Qwen 3.5 model that supports tool use while mainta
 
 - The model may occasionally fail to call the required tool.
 - The model may occasionally call the tool with invalid arguments.
+
+Another model I tested was `qwen3.5:1.7b`, which could reduce the error rate, but its CPU inference was too slow for the purposes of the demo.
 
 ## Local API development
 
