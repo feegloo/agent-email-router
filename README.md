@@ -33,6 +33,7 @@ docker compose up -d --wait
 The first start may take longer because Ollama needs to download the model.
 
 The `--wait` flag waits until required services are ready. 
+
 The API starts only after Ollama initialization completes, and Docker Compose waits until the API reports healthy status by responding to `/health` endpoint.
 
 Services:
